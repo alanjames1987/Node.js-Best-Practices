@@ -1,6 +1,6 @@
 ### Always Use Asynchronous Methods
 
-The two most powerful aspect of Node are it's non-blocking IO and asynchronous runtime. Both of these aspects of Node are what give it the speed and robustness to serve more requests faster than other languages.
+The two most powerful aspect of Node.js are it's non-blocking IO and asynchronous runtime. Both of these aspects of Node.js are what give it the speed and robustness to serve more requests faster than other languages.
 
 In order to take advantage of these features you have to always use asynchronous methods in your code. Below is an example showing the good and bad way to read files from a system.
 
@@ -30,11 +30,11 @@ By contrast The Good Way reads the file into memory without halting the runtime 
 
 As stated above you should always use asynchronous methods and function calls in Node. The one exception is the `require` function, which imports external modules.
 
-Node always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node application.
+Node.js always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node.js developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node.js application.
 
-If you `require` an external module from within your function calls you can be requiring a Node.js module and all the modules it requires each time your function is called. If you write this inside functions that run each request and Node takes five seconds to require all the modules than each incoming request will take at least five seconds to fulfill, during which time no other user will get served as mentioned above.
+If you `require` an external module from within your function calls you can be requiring a Node.js module and all the modules it requires each time your function is called. If you write this inside functions that run each request and Node.js takes five seconds to require all the modules than each incoming request will take at least five seconds to fulfill, during which time no other user will get served as mentioned above.
 
-The solution is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node will save the module to memory and your code will run much faster.
+The solution is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to memory and your code will run much faster.
 
 ```js
 var _ = require('underscore');
@@ -111,7 +111,7 @@ Believe it or not but the best place I found to describe what JavaScript's stric
 
 ### Validate that Callbacks are Callable
 
-As stated before Node uses a lot of callbacks. Node is also weakly typed. The compiler allows any variable to be converted to any other data type. This lack of typing can cause one big problem.
+As stated before Node.js uses a lot of callbacks. Node.js is also weakly typed. The compiler allows any variable to be converted to any other data type. This lack of typing can cause one big problem.
 
 Only functions are callable.
 
@@ -185,7 +185,7 @@ myAsyncFunction({
 
 ### Use Exception Handling When Errors Can Be Thrown
 
-Most methods in Node will follow the "error first" convention, but some functions don't. These functions are not Node specific function, they instead come from JavaScript. There are lots of functions that can cause exceptions. One of these functions is `JSON.parse` which throws an error if it can't parse a string into JSON.
+Most methods in Node.js will follow the "error first" convention, but some functions don't. These functions are not Node.js specific function, they instead come from JavaScript. There are lots of functions that can cause exceptions. One of these functions is `JSON.parse` which throws an error if it can't parse a string into JSON.
 
 How do we detect this error without crashing our server? 
 
@@ -297,7 +297,7 @@ Some IDEs will even use JSDoc to make code suggestions.
 
 ### Use a Process Manager like `upstart` or `forever`
 
-Keeping a Node progress running can be daunting. Simply using the node command is dangurous. If your Node server crashes the node command will not automatically restart the process.
+Keeping a Node.js process running can be daunting. Simply using the `node` command is dangurous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
 However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart) and [forever](https://www.npmjs.org/package/forever) will.
 
@@ -307,10 +307,10 @@ Other process managers exist, such as [pm2](https://www.npmjs.org/package/pm2), 
 
 ### Follow CommonJS Standard
 
-Node follows a standard for writing code that varies slightly from the standards that govern writing browser based JavaScript.
+Node.js follows a standard for writing code that varies slightly from the standards that govern writing browser based JavaScript.
 
 This standard is called [CommonJS](http://wiki.commonjs.org/wiki/CommonJS).
 
-While CommonJS is far too large for me to cover here it's worth knowing about about and learning. The most important point are that it mandates certain file organization and behavior that should be expected from the CommonJS module loader (require). It also describes how internals of the Node system should work.
+While CommonJS is far too large for me to cover here it's worth knowing about about and learning. The most important point are that it mandates certain file organization and behavior that should be expected from the CommonJS module loader (require). It also describes how internals of the Node.js system should work.
 
 Check it out.
