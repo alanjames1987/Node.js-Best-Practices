@@ -248,7 +248,7 @@ Well don't get too excited. `exports` only collects properties and attaches them
 ```js
 module.exports = {};
 
-exports.somePropery = 'someValue';
+exports.someProperty = 'someValue';
 ```
 
 `someProperty` won't be exported as part of the module.
@@ -264,7 +264,7 @@ The solution is simple. Don't use `exports` because it can create confusing, har
 ```js
 module.exports = {};
 
-module.exports.somePropery = 'someValue';
+module.exports.someProperty = 'someValue';
 ```
 
 `someProperty` will be exported as part of the module.
@@ -272,7 +272,7 @@ module.exports.somePropery = 'someValue';
 ```js
 var exportedObject = require('./mod');
 
-console.log(exportedObject); // { somePropery: 'someValue' }
+console.log(exportedObject); // { someProperty: 'someValue' }
 ```
 
 ### Use JSDoc
