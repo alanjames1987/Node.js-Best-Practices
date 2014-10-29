@@ -148,8 +148,9 @@ function myFunction(someArray, callback){
 	// if the passed in object is
 	// not the right data type
 	if( !_.isArray(someArray) ){
-		var error = {error:'expected an array but got a non array data type'};
-		callback(error, null);
+		var err = new TypeError('someArray must be an array');
+		callback(err, null);
+		return;
 	}
 
 	// ... do other stuff
@@ -198,7 +199,7 @@ try {
 
 	var parsedJSON = JSON.parse('some invalid JSON');
 
-} catch (e) {
+} catch (err) {
 
 	var parsedJSON = false;
 
@@ -226,9 +227,11 @@ function parseJSON(stringToParse, callback) {
 
 		callback(null, parsedJSON);
 
-	} catch (e) {
+	} catch (err) {
 
-		callback(true, null);
+		callback(err, null);
+
+		return;
 
 	}
 
