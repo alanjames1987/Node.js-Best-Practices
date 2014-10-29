@@ -299,7 +299,7 @@ Some IDEs will even use JSDoc to make code suggestions.
 
 ### Use a Process Manager like `upstart` or `forever`
 
-Keeping a Node.js process running can be daunting. Simply using the `node` command is dangurous. If your Node.js server crashes the `node` command will not automatically restart the process.
+Keeping a Node.js process running can be daunting. Simply using the `node` command is dangerous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
 However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart) and [forever](https://www.npmjs.org/package/forever) will.
 
