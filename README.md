@@ -291,7 +291,7 @@ var value = multiply('Some String', 2);
 console.log(value) // NaN
 ```
 
-Obviously this is a problem above that could easily be fixed by looking at the code. But what if the code was written by someone else and uses complex parameters that you don't really understand. You could spend several minutes tracking down tracking down the expected data type. Worst yet it might accept multiple data types, in which case it may take you longer to track it down.
+Obviously this is a problem above that could easily be fixed by looking at the code. But what if the code was written by someone else and uses complex parameters that you don't really understand. You could spend several minutes tracking down the expected data type. Worst yet it might accept multiple data types, in which case it may take you longer to track it down.
 
 The best thing to do is use [JSDoc](http://usejsdoc.org/). If you're a Java developer you will have heard of Javadoc. JSDoc is similar and at it's simplest adds comments above functions to describe how the function works, but it [can do a lot more](http://en.wikipedia.org/wiki/JSDoc#JSDoc_tags).
 
@@ -299,7 +299,7 @@ Some IDEs will even use JSDoc to make code suggestions.
 
 ### Use a Process Manager like `upstart` or `forever`
 
-Keeping a Node.js process running can be daunting. Simply using the `node` command is dangurous. If your Node.js server crashes the `node` command will not automatically restart the process.
+Keeping a Node.js process running can be daunting. Simply using the `node` command is dangerous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
 However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart) and [forever](https://www.npmjs.org/package/forever) will.
 
