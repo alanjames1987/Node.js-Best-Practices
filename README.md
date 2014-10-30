@@ -184,7 +184,7 @@ myAsyncFunction({
 		}
 
 		// do something with someReturnedData
-		// we know there was error
+		// we know there was no error
 
 	}
 });
