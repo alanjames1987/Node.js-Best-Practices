@@ -194,20 +194,16 @@ How do we detect this error without crashing our server?
 This is a perfect time to use a classic JavaScript `try` `catch`.
 
 ```js
+var parsedJSON;
+
 try {
-
-	var parsedJSON = JSON.parse('some invalid JSON');
-
-} catch (err) {
-
-	var parsedJSON = false;
-
+	parsedJSON = JSON.parse('some invalid JSON');
+} catch (e) {
+	// do something with your error
 }
 
 if (parsedJSON) {
-
 	// use parsedJSON
-
 }
 ```
 
