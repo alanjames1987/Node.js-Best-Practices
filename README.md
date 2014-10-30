@@ -284,7 +284,7 @@ JavaScript is a weakly typed language. Any variable can be passed to any functio
 ```js
 function multiply(num1, num2) {
 
-	return num1 + num2;
+	return num1 * num2;
 
 }
 
