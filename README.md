@@ -110,6 +110,23 @@ someFunction(); // self also resolves as the instance of MyClass
 
 `self` now always refers to the `MyClass` instance.
 
+You could also call useful binding method, but it is less readable in some cases. 
+
+```js
+function MyClass() {
+	
+	this.myMethod = function() {
+	  console.log(this);
+	};
+}
+
+var myClass = new MyClass();
+myClass.myMethod(); // self resolves as the instance of MyClass
+
+var someFunction = myClass.myMethod.bind(myClass);
+someFunction(); // self also resolves as the instance of MyClass
+```
+
 ### Always "use strict"
 
 "use strict" is a behavior flag you can add to to first line of any JavaScript file or function. It causes errors when certain bad practices are use in your code, and disallows the use of certain functions, such as `with`.
