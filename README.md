@@ -140,7 +140,6 @@ After writing Node.js code for a while you will want to start writing your own m
 By [convention](http://nodeguide.com/style.html#callbacks) all callback functions are passed an error as the first parameter.
 
 ```js
-var _ = require('underscore');
 
 function myFunction(someArray, callback){
 
