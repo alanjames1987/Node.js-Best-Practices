@@ -3,6 +3,8 @@ Node.js Best Practices
 
 This is a list of best practices for writing robust Node.js code. It is inspired by other guilds such as [Felix Geisendörfer's Node Style Guide ](https://github.com/felixge/node-style-guide) and what is popular within the community.
 
+These best practices should focus a lot on explanations, giving detailed verbal explnation and various coding examples when possible.
+
 ### Always Use Asynchronous Methods
 
 The two most powerful aspect of Node.js are it's non-blocking IO and asynchronous runtime. Both of these aspects of Node.js are what give it the speed and robustness to serve more requests faster than other languages.
