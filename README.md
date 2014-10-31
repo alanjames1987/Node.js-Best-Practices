@@ -137,7 +137,7 @@ someFunction(); // self also resolves as the instance of MyClass
 
 ### Always "use strict"
 
-"use strict" is a behavior flag you can add to to first line of any JavaScript file or function. It causes errors when certain bad practices are use in your code, and disallows the use of certain functions, such as `with`.
+"use strict" is a behavior flag you can add to the first line of any JavaScript file or function. It causes errors when certain bad practices are use in your code, and disallows the use of certain functions, such as `with`.
 
 Believe it or not but the best place I found to describe what JavaScript's strict mode changes is [Microsoft's JavaScript documentation](http://msdn.microsoft.com/en-us/library/ie/br230269(v=vs.94).aspx#rest).
 
@@ -341,6 +341,6 @@ Node.js follows a standard for writing code that varies slightly from the standa
 
 This standard is called [CommonJS](http://wiki.commonjs.org/wiki/CommonJS).
 
-While CommonJS is far too large for me to cover here it's worth knowing about about and learning. The most important points are that it mandates certain file organization and behavior that should be expected from the CommonJS module loader (require). It also describes how internals of the Node.js system should work.
+While CommonJS is far too large for me to cover here it's worth knowing about and learning. The most important points are that it mandates certain file organization and behavior that should be expected from the CommonJS module loader (require). It also describes how internals of the Node.js system should work.
 
 Check it out.
