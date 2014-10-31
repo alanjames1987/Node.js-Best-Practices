@@ -1,3 +1,10 @@
+Node.js Best Practices
+---
+
+This is a list of best practices for writing robust Node.js code. It is inspired by other guilds such as [Felix Geisendörfer's Node Style Guide ](https://github.com/felixge/node-style-guide) and what is popular within the community.
+
+These best practices should focus a lot on explanations, giving detailed verbal explnation and various coding examples when possible.
+
 ### Always Use Asynchronous Methods
 
 The two most powerful aspect of Node.js are it's non-blocking IO and asynchronous runtime. Both of these aspects of Node.js are what give it the speed and robustness to serve more requests faster than other languages.
@@ -105,6 +112,23 @@ someFunction(); // self also resolves as the instance of MyClass
 
 `self` now always refers to the `MyClass` instance.
 
+You could also call useful binding method, but it is less readable in some cases. 
+
+```js
+function MyClass() {
+	
+	this.myMethod = function() {
+	  console.log(this);
+	};
+}
+
+var myClass = new MyClass();
+myClass.myMethod(); // self resolves as the instance of MyClass
+
+var someFunction = myClass.myMethod.bind(myClass);
+someFunction(); // self also resolves as the instance of MyClass
+```
+
 ### Always "use strict"
 
 "use strict" is a behavior flag you can add to to first line of any JavaScript file or function. It causes errors when certain bad practices are use in your code, and disallows the use of certain functions, such as `with`.
@@ -140,16 +164,16 @@ After writing Node.js code for a while you will want to start writing your own m
 By [convention](http://nodeguide.com/style.html#callbacks) all callback functions are passed an error as the first parameter.
 
 ```js
-var _ = require('underscore');
 
 function myFunction(someArray, callback){
 
 	// an example of an error that could occur
 	// if the passed in object is
 	// not the right data type
-	if( !_.isArray(someArray) ){
-		var error = {error:'expected an array but got a non array data type'};
-		callback(error, null);
+	if( !Array.isArray(someArray) ){
+		var err = new TypeError('someArray must be an array');
+		callback(err, null);
+		return;
 	}
 
 	// ... do other stuff
@@ -179,7 +203,7 @@ myAsyncFunction({
 		}
 
 		// do something with someReturnedData
-		// we know there was error
+		// we know there was no error
 
 	}
 });
@@ -189,25 +213,21 @@ myAsyncFunction({
 
 Most methods in Node.js will follow the "error first" convention, but some functions don't. These functions are not Node.js specific function, they instead come from JavaScript. There are lots of functions that can cause exceptions. One of these functions is `JSON.parse` which throws an error if it can't parse a string into JSON.
 
-How do we detect this error without crashing our server? 
+How do we detect this error without crashing our server?
 
 This is a perfect time to use a classic JavaScript `try` `catch`.
 
 ```js
+var parsedJSON;
+
 try {
-
-	var parsedJSON = JSON.parse('some invalid JSON');
-
-} catch (e) {
-
-	var parsedJSON = false;
-
+	parsedJSON = JSON.parse('some invalid JSON');
+} catch (err) {
+	// do something with your error
 }
 
 if (parsedJSON) {
-
 	// use parsedJSON
-
 }
 ```
 
@@ -226,9 +246,11 @@ function parseJSON(stringToParse, callback) {
 
 		callback(null, parsedJSON);
 
-	} catch (e) {
+	} catch (err) {
 
-		callback(true, null);
+		callback(err, null);
+
+		return;
 
 	}
 
@@ -248,7 +270,7 @@ Well don't get too excited. `exports` only collects properties and attaches them
 ```js
 module.exports = {};
 
-exports.somePropery = 'someValue';
+exports.someProperty = 'someValue';
 ```
 
 `someProperty` won't be exported as part of the module.
@@ -264,7 +286,7 @@ The solution is simple. Don't use `exports` because it can create confusing, har
 ```js
 module.exports = {};
 
-module.exports.somePropery = 'someValue';
+module.exports.someProperty = 'someValue';
 ```
 
 `someProperty` will be exported as part of the module.
@@ -272,7 +294,7 @@ module.exports.somePropery = 'someValue';
 ```js
 var exportedObject = require('./mod');
 
-console.log(exportedObject); // { somePropery: 'someValue' }
+console.log(exportedObject); // { someProperty: 'someValue' }
 ```
 
 ### Use JSDoc
@@ -282,7 +304,7 @@ JavaScript is a weakly typed language. Any variable can be passed to any functio
 ```js
 function multiply(num1, num2) {
 
-	return num1 + num2;
+	return num1 * num2;
 
 }
 
@@ -291,7 +313,7 @@ var value = multiply('Some String', 2);
 console.log(value) // NaN
 ```
 
-Obviously this is a problem above that could easily be fixed by looking at the code. But what if the code was written by someone else and uses complex parameters that you don't really understand. You could spend several minutes tracking down tracking down the expected data type. Worst yet it might accept multiple data types, in which case it may take you longer to track it down.
+Obviously this is a problem above that could easily be fixed by looking at the code. But what if the code was written by someone else and uses complex parameters that you don't really understand. You could spend several minutes tracking down the expected data type. Worst yet it might accept multiple data types, in which case it may take you longer to track it down.
 
 The best thing to do is use [JSDoc](http://usejsdoc.org/). If you're a Java developer you will have heard of Javadoc. JSDoc is similar and at it's simplest adds comments above functions to describe how the function works, but it [can do a lot more](http://en.wikipedia.org/wiki/JSDoc#JSDoc_tags).
 
@@ -299,7 +321,7 @@ Some IDEs will even use JSDoc to make code suggestions.
 
 ### Use a Process Manager like `upstart` or `forever`
 
-Keeping a Node.js process running can be daunting. Simply using the `node` command is dangurous. If your Node.js server crashes the `node` command will not automatically restart the process.
+Keeping a Node.js process running can be daunting. Simply using the `node` command is dangerous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
 However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart) and [forever](https://www.npmjs.org/package/forever) will.
 
