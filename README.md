@@ -43,11 +43,15 @@ By contrast The Good Way reads the file into memory without halting the runtime 
 
 As stated above you should always use asynchronous methods and function calls in Node. The one exception is the `require` function, which imports external modules.
 
-Node.js always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node.js developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node.js application.
+Node.js always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node.js developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node.js application. They even cache the required modules so they won't be requried again.
 
-If you `require` an external module from within your function calls you can be requiring a Node.js module and all the modules it requires each time your function is called. If you write this inside functions that run each request and Node.js takes five seconds to require all the modules than each incoming request will take at least five seconds to fulfill, during which time no other user will get served as mentioned above.
+However, if you `require` an external module from within functions your module will be synchronously loaded when those functions run and this can cause two problems.
 
-The solution is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to memory and your code will run much faster.
+To explain one of the problems imagine you had a module that took 30 minuets to load, which is unreasonable, but just imagine. If that module is only needed in one route handler function it might take some time before someone triggers that route and Node.js has to `require` that module. When this happens the server would effectively be inaccessible for 30 minutes as that module is loaded. If this happens at peak hours several users would be unable to get any access to your server and requests will queue up.
+
+The second problem is a bigger problem but builds on the first. If the module you require causes an error and crashes the server you may not know about the error for several days, especssially is you use this module in a rarely used route handler. No one wants a call from a client at 4AM telling them the server is down.
+
+The solution to both of these problems is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to that variable and your code will run much faster.
 
 ```js
 var _ = require('underscore');
