@@ -325,15 +325,13 @@ The best thing to do is use [JSDoc](http://usejsdoc.org/). If you're a Java deve
 
 Some IDEs will even use JSDoc to make code suggestions.
 
-### Use a Process Manager like `upstart` or `forever`
+### Use a Process Manager like `upstart`, `forever`, or `pm2`
 
 Keeping a Node.js process running can be daunting. Simply using the `node` command is dangerous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
-However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart) and [forever](https://www.npmjs.org/package/forever) will.
+However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart), [forever](https://www.npmjs.org/package/forever), or [pm2](https://www.npmjs.org/package/pm2) will.
 
-While upstart is a general purpose init daemon forever is specific to Node.
-
-Other process managers exist, such as [pm2](https://www.npmjs.org/package/pm2), but at the time of this writing I found them to be unstable and not ready for production.
+While upstart is a general purpose init daemon forever and pm2 are specific to Node.
 
 ### Follow CommonJS Standard
 
