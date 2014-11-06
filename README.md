@@ -45,7 +45,7 @@ As stated above you should always use asynchronous methods and function calls in
 
 Node.js always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node.js developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node.js application. They even cache the required modules so they won't be requried again.
 
-However, if you `require` an external module from within functions your module will be synchronously loaded when those functions run and this can cause two problems.
+However, if you `require` an external module from within functions your module will be synchronously loaded when those functions, not when your application starts. This can cause two problems.
 
 To explain one of the problems imagine you had a module that took 30 minuets to load, which is unreasonable, but just imagine. If that module is only needed in one route handler function it might take some time before someone triggers that route and Node.js has to `require` that module. When this happens the server would effectively be inaccessible for 30 minutes as that module is loaded. If this happens at peak hours several users would be unable to get any access to your server and requests will queue up.
 
