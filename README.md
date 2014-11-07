@@ -5,7 +5,7 @@ Node.js Best Practices
 
 This is a list of best practices for writing robust Node.js code. It is inspired by other guilds such as [Felix Geisendörfer's Node Style Guide ](https://github.com/felixge/node-style-guide) and what is popular within the community.
 
-These best practices should relate to performance and functional differences between various types of coding. They should focus heavily on giving detailed verbal explanations and coding examples when possible. They should not be a list of style preferences. Lists like that already exists and honestly style doesn't matter when it comes to functionality.
+These best practices should relate to performance and functional differences between various types of coding. They should focus heavily on giving detailed written explanations and coding examples when possible. They should not be a list of style preferences. Lists like that already exists and honestly style doesn't matter when it comes to functionality.
 
 If you think something is not explained enough or you disagree with a point please open an issue and discuss it. Please be respectful and open to discussing the idea. I want as many people involved in creating these as possible.
 
@@ -122,11 +122,11 @@ someFunction(); // self also resolves as the instance of MyClass
 
 `self` now always refers to the `MyClass` instance.
 
-You could also call useful binding method, but it is less readable in some cases. 
+You could also call useful binding method, but it is less readable in some cases.
 
 ```js
 function MyClass() {
-	
+
 	this.myMethod = function() {
 	  console.log(this);
 	};
