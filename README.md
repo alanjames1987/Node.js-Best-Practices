@@ -151,7 +151,7 @@ As stated before Node.js uses a lot of callbacks. Node.js is also weakly typed. 
 
 Only functions are callable.
 
-This means that if you pass a string to a function that needed a callback function your application will crash when it tries to execute that string.
+This means that if you pass a string to a function, that needed a callback function, your application will crash when it tries to execute that string.
 
 This is obviously bad, but upon first blush there is no simple way to solve it. You could wrap the execution of all callbacks in try catch statements, or you could use if statements to determine if a callback has been passed in.
 
