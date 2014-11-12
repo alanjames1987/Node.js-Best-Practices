@@ -147,7 +147,7 @@ Believe it or not but the best place I found to describe what JavaScript's stric
 
 ### Validate that Callbacks are Callable
 
-As stated before Node.js uses a lot of callbacks. Node.js is also weakly typed. The compiler allows any variable to be converted to any other data type. This lack of typing can cause one big problem.
+As stated before Node.js uses a lot of callbacks. Node.js is also weakly typed. The compiler allows any variable to be converted to any other data type. This lack of strict typing can become a big problem when passing parameters into functions for one reason.
 
 Only functions are callable.
 
