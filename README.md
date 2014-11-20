@@ -260,8 +260,6 @@ function parseJSON(stringToParse, callback) {
 
 		callback(err, null);
 
-		return;
-
 	}
 
 }
