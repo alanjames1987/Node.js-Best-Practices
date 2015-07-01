@@ -1,5 +1,4 @@
-Node.js Best Practices
----
+# Node.js Best Practices
 
 ## Intention
 
@@ -9,9 +8,22 @@ These best practices should relate to performance and functional differences bet
 
 If you think something is not explained enough or you disagree with a point please open an issue and discuss it. Please be respectful and open to discussing the idea. I want as many people involved in creating these as possible.
 
----
+## Table of Contents
 
-### Always Use Asynchronous Methods
+* [Always Use Asynchronous Methods](#always-use-asynchronous-methods)
+* [Never require Modules Inside of Functions](#never-require-modules-inside-of-functions)
+* [Save a reference to this Because it Changes Based on Context](#save-a-reference-to-this-because-it-changes-based-on-context)
+* [Always "use strict"](#always-use-strict)
+* [Validate that Callbacks are Callable](#validate-that-callbacks-are-callable)
+* [Callbacks Always Pass Error Parameter First](#callbacks-always-pass-error-parameter-first)
+* [Always Check for "error" in Callbacks](#always-check-for-error-in-callbacks)
+* [Use Exception Handling When Errors Can Be Thrown](#use-exception-handling-when-errors-can-be-thrown)
+* [Use module.exports not exports](#use-moduleexports-not-exports)
+* [Use JSDoc](#use-jsdoc)
+* [Use a Process Manager like upstart, forever, or pm2](#use-a-process-manager-like-upstart-forever-or-pm2)
+* [Follow CommonJS Standard](#follow-commonjs-standard)
+
+## Always Use Asynchronous Methods
 
 The two most powerful aspect of Node.js are it's non-blocking IO and asynchronous runtime. Both of these aspects of Node.js are what give it the speed and robustness to serve more requests faster than other languages.
 
@@ -39,7 +51,7 @@ When a synchronous function is invoked the entire runtime halts. For example, ab
 
 By contrast The Good Way reads the file into memory without halting the runtime by using an asynchronous method. This means that if your file takes five minutes to read into memory all your users continue to get served.
 
-### Never `require` Modules Inside of Functions
+## Never `require` Modules Inside of Functions
 
 As stated above you should always use asynchronous methods and function calls in Node. The one exception is the `require` function, which imports external modules.
 
@@ -52,6 +64,26 @@ To explain one of the problems imagine you had a module that took 30 minutes to 
 The second problem is a bigger problem but builds on the first. If the module you require causes an error and crashes the server you may not know about the error for several days, especially is you use this module in a rarely used route handler. No one wants a call from a client at 4AM telling them the server is down.
 
 The solution to both of these problems is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to that variable and your code will run much faster.
+
+The Bad Way
+
+```js
+function myFunction(someArray){
+
+	var _ = require('underscore');
+
+	// use underscore without the need
+	// to require it again
+	_.sort(someArray, function(item){
+		// do something with item
+	});
+
+}
+
+module.exports.myFunction = myFunction;
+```
+
+The Good Way
 
 ```js
 var _ = require('underscore');
@@ -69,7 +101,7 @@ function myFunction(someArray){
 module.exports.myFunction = myFunction;
 ```
 
-### Save a reference to `this` Because it Changes Based on Context
+## Save a reference to `this` Because it Changes Based on Context
 
 If you have a background with Java, ActionScript, PHP, or basically any language that uses the `this` keyword you might think you understand how JavaScript treats the same keyword. Unfortunately you would be wrong.
 
@@ -139,13 +171,13 @@ var someFunction = myClass.myMethod.bind(myClass);
 someFunction(); // self also resolves as the instance of MyClass
 ```
 
-### Always "use strict"
+## Always "use strict"
 
 "use strict" is a behavior flag you can add to the first line of any JavaScript file or function. It causes errors when certain bad practices are use in your code, and disallows the use of certain functions, such as `with`.
 
 Believe it or not but the best place I found to describe what JavaScript's strict mode changes is [Microsoft's JavaScript documentation](http://msdn.microsoft.com/en-us/library/ie/br230269(v=vs.94).aspx#rest).
 
-### Validate that Callbacks are Callable
+## Validate that Callbacks are Callable
 
 As stated before Node.js uses a lot of callbacks. Node.js is also weakly typed. The compiler allows any variable to be converted to any other data type. This lack of strict typing can become a big problem when passing parameters into functions for one reason.
 
@@ -165,7 +197,7 @@ This determines if the callback is a function. If it's not a function for any re
 
 Place that line at the top of each function that receives a callback and you will never crash due to uncallable callbacks again.
 
-### Callbacks Always Pass Error Parameter First
+## Callbacks Always Pass Error Parameter First
 
 Node.js is asynchronous, which means you usually have to use callback functions to determine when your code completes.
 
@@ -195,7 +227,7 @@ function myFunction(someArray, callback){
 module.export.myFunction = myFunction;
 ```
 
-### Always Check for "error" in Callbacks
+## Always Check for "error" in Callbacks
 
 As stated above, by convention an error is always the first parameter passed to any callback function. This is great for making sure your site doesn't crash and that you can detect errors when they happen.
 
@@ -219,7 +251,7 @@ myAsyncFunction({
 });
 ```
 
-### Use Exception Handling When Errors Can Be Thrown
+## Use Exception Handling When Errors Can Be Thrown
 
 Most methods in Node.js will follow the "error first" convention, but some functions don't. These functions are not Node.js specific function, they instead come from JavaScript. There are lots of functions that can cause exceptions. One of these functions is `JSON.parse` which throws an error if it can't parse a string into JSON.
 
@@ -267,7 +299,7 @@ function parseJSON(stringToParse, callback) {
 
 Of course the above example is slightly contrived, however, the idea of using try catch is a very good practice.
 
-### Use `module.exports` not `exports`
+## Use `module.exports` not `exports`
 
 You might have used `module.exports` and `exports` interchangeably thinking they are the same thing and in may cases they are. However, `exports` is more of a helper method that collects properties and attaches them to `module.exports`.
 
@@ -305,7 +337,7 @@ var exportedObject = require('./mod');
 console.log(exportedObject); // { someProperty: 'someValue' }
 ```
 
-### Use JSDoc
+## Use JSDoc
 
 JavaScript is a weakly typed language. Any variable can be passed to any function without conflict, until you try to use that function.
 
@@ -327,7 +359,7 @@ The best thing to do is use [JSDoc](http://usejsdoc.org/). If you're a Java deve
 
 Some IDEs will even use JSDoc to make code suggestions.
 
-### Use a Process Manager like `upstart`, `forever`, or `pm2`
+## Use a Process Manager like `upstart`, `forever`, or `pm2`
 
 Keeping a Node.js process running can be daunting. Simply using the `node` command is dangerous. If your Node.js server crashes the `node` command will not automatically restart the process.
 
@@ -335,7 +367,7 @@ However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart), [foreve
 
 While upstart is a general purpose init daemon forever and pm2 are specific to Node.
 
-### Follow CommonJS Standard
+## Follow CommonJS Standard
 
 Node.js follows a standard for writing code that varies slightly from the standards that govern writing browser based JavaScript.
 
