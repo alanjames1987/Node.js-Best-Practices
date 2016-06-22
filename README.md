@@ -61,7 +61,7 @@ However, if you `require` an external module from within functions your module w
 
 To explain one of the problems imagine you had a module that took 30 minutes to load, which is unreasonable, but just imagine. If that module is only needed in one route handler function it might take some time before someone triggers that route and Node.js has to `require` that module. When this happens the server would effectively be inaccessible for 30 minutes as that module is loaded. If this happens at peak hours several users would be unable to get any access to your server and requests will queue up.
 
-The second problem is a bigger problem but builds on the first. If the module you require causes an error and crashes the server you may not know about the error for several days, especially is you use this module in a rarely used route handler. No one wants a call from a client at 4AM telling them the server is down.
+The second problem is a bigger problem but builds on the first. If the module you require causes an error and crashes the server you may not know about the error for several days, especially if you use this module in a rarely used route handler. No one wants a call from a client at 4AM telling them the server is down.
 
 The solution to both of these problems is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to that variable and your code will run much faster.
 
