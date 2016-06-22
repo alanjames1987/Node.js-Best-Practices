@@ -11,7 +11,7 @@ If you think something is not explained enough or you disagree with a point plea
 ## Table of Contents
 
 * [Always Use Asynchronous Methods](#always-use-asynchronous-methods)
-* [Never require Modules Inside of Functions](#never-require-modules-inside-of-functions)
+* [Never require Modules Inside of Functions (After App Initialization)](#never-require-modules-inside-of-functions)
 * [Save a reference to this Because it Changes Based on Context](#save-a-reference-to-this-because-it-changes-based-on-context)
 * [Always "use strict"](#always-use-strict)
 * [Validate that Callbacks are Callable](#validate-that-callbacks-are-callable)
@@ -51,7 +51,7 @@ When a synchronous function is invoked the entire runtime halts. For example, ab
 
 By contrast The Good Way reads the file into memory without halting the runtime by using an asynchronous method. This means that if your file takes five minutes to read into memory all your users continue to get served.
 
-## Never `require` Modules Inside of Functions
+## Never `require` Modules Inside of Functions (After App Initialization)
 
 As stated above you should always use asynchronous methods and function calls in Node. The one exception is the `require` function, which imports external modules.
 
