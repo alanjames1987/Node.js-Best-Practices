@@ -11,7 +11,7 @@ If you think something is not explained enough or you disagree with a point plea
 ## Table of Contents
 
 * [Always Use Asynchronous Methods](#always-use-asynchronous-methods)
-* [Never require Modules Inside of Functions (After App Initialization)](#never-require-modules-inside-of-functions)
+* [Never require Modules Inside of Functions (After App Initialization)](#never-require-modules-inside-of-functions-after-app-initialization)
 * [Save a reference to this Because it Changes Based on Context](#save-a-reference-to-this-because-it-changes-based-on-context)
 * [Always "use strict"](#always-use-strict)
 * [Validate that Callbacks are Callable](#validate-that-callbacks-are-callable)
