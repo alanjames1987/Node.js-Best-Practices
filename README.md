@@ -11,7 +11,7 @@ If you think something is not explained enough or you disagree with a point plea
 ## Table of Contents
 
 * [Always Use Asynchronous Methods](#always-use-asynchronous-methods)
-* [Never require Modules Inside of Functions](#never-require-modules-inside-of-functions)
+* [Never require Modules After App Initialization](#never-require-modules-after-app-initialization)
 * [Save a reference to this Because it Changes Based on Context](#save-a-reference-to-this-because-it-changes-based-on-context)
 * [Always "use strict"](#always-use-strict)
 * [Validate that Callbacks are Callable](#validate-that-callbacks-are-callable)
@@ -51,36 +51,30 @@ When a synchronous function is invoked the entire runtime halts. For example, ab
 
 By contrast The Good Way reads the file into memory without halting the runtime by using an asynchronous method. This means that if your file takes five minutes to read into memory all your users continue to get served.
 
-## Never `require` Modules Inside of Functions
+## Never `require` Modules After App Initialization
 
 As stated above you should always use asynchronous methods and function calls in Node. The one exception is the `require` function, which imports external modules.
 
 Node.js always runs `require` synchronously. This is so the module being required can `require` other needed modules. The Node.js developers realize that importing modules is an expensive process and so they intend for it to happen only once, when you start your Node.js application. They even cache the required modules so they won't be required again.
 
-However, if you `require` an external module from within functions your module will be synchronously loaded when those functions, not when your application starts. This can cause two problems.
-
 To explain one of the problems imagine you had a module that took 30 minutes to load, which is unreasonable, but just imagine. If that module is only needed in one route handler function it might take some time before someone triggers that route and Node.js has to `require` that module. When this happens the server would effectively be inaccessible for 30 minutes as that module is loaded. If this happens at peak hours several users would be unable to get any access to your server and requests will queue up.
 
 The second problem is a bigger problem but builds on the first. If the module you require causes an error and crashes the server you may not know about the error for several days, especially if you use this module in a rarely used route handler. No one wants a call from a client at 4AM telling them the server is down.
 
-The solution to both of these problems is to always `require` modules at the top of your file, outside of any function call. Save the required module to a variable and use the variable instead of re-requiring the module. Node.js will save the module to that variable and your code will run much faster.
+The solution to both of these problems is to always `require` modules at application startup rather than during execution of a function during runtime. Node.js will cache loaded modules within the variable you specify allowing for faster code execution during runtime instead of blocking during runtime and causing potential issues.
 
 The Bad Way
 
 ```js
-function myFunction(someArray){
+app.get('/',function(req,res,next){
 
 	var _ = require('underscore');
 
-	// use underscore without the need
-	// to require it again
-	_.sort(someArray, function(item){
-		// do something with item
+	// sort data within the request body
+	_.sort(someArray,function(item){
+		// do something with the item
 	});
-
-}
-
-module.exports.myFunction = myFunction;
+});
 ```
 
 The Good Way
@@ -88,17 +82,13 @@ The Good Way
 ```js
 var _ = require('underscore');
 
-function myFunction(someArray){
-
-	// use underscore without the need
-	// to require it again
-	_.sort(someArray, function(item){
-		// do something with item
+app.get('/',function(req,res,next){
+	
+	_.sort(someArray,function(item){
+		// do something with the item
 	});
 
-}
-
-module.exports.myFunction = myFunction;
+});
 ```
 
 ## Save a reference to `this` Because it Changes Based on Context
