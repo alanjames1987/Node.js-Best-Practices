@@ -83,7 +83,7 @@ The Good Way
 var _ = require('underscore');
 
 app.get('/',function(req,res,next){
-	
+
 	_.sort(someArray,function(item){
 		// do something with the item
 	});
@@ -293,7 +293,7 @@ Of course the above example is slightly contrived, however, the idea of using tr
 
 You might have used `module.exports` and `exports` interchangeably thinking they are the same thing and in many cases they are. However, `exports` is more of a helper method that collects properties and attaches them to `module.exports`.
 
-So what the problem? That sounds great.
+So what's the problem? That sounds great.
 
 Well don't get too excited. `exports` only collects properties and attaches them if `module.exports` doesn't already have existing properties. If `module.exports` has any properties, everything attached to `exports` is ignored and not attached to `module.exports`.
 
