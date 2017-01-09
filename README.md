@@ -355,7 +355,7 @@ Keeping a Node.js process running can be daunting. Simply using the `node` comma
 
 However, programs like [upstart](https://en.wikipedia.org/wiki/Upstart), [forever](https://www.npmjs.org/package/forever), or [pm2](https://www.npmjs.org/package/pm2) will.
 
-While upstart is a general purpose init daemon forever and pm2 are specific to Node.
+While upstart is a general purpose init daemon, forever and pm2 are specific to Node.
 
 ## Follow CommonJS Standard
 
